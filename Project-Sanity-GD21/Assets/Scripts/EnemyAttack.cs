@@ -5,18 +5,18 @@ using System.Collections;
 public class EnemyAttack : MonoBehaviour
 {
     private Animator _animator;
-    private GameObject _player;
+    private GameObject Player;
     private bool _collidedWithPlayer;
 
     void Awake()
     {
-        _player = GameObject.FindGameObjectWithTag("Player");
+        Player = GameObject.FindGameObjectWithTag("Player");
         _animator = GetComponent<Animator>();
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject == _player)
+        if (other.gameObject == Player)
         {
             _animator.SetBool("IsNearPlayer", true);
         }
@@ -25,7 +25,7 @@ public class EnemyAttack : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject == _player)
+        if (other.gameObject == Player)
         {
             _collidedWithPlayer = true;
         }
@@ -34,7 +34,7 @@ public class EnemyAttack : MonoBehaviour
 
     void OnCollisionExit(Collision other)
     {
-        if (other.gameObject == _player)
+        if (other.gameObject == Player)
         {
             _collidedWithPlayer = false;
         }
@@ -43,18 +43,19 @@ public class EnemyAttack : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject == _player)
+        if (other.gameObject == Player)
         {
             _animator.SetBool("IsNearPlayer", false);
         }
         print("exit trigger with _player");
     }
 
-    private void Attack()
+    private void Update()
     {
-        if (_collidedWithPlayer)
+        if (_collidedWithPlayer)  
         {
-            _player.GetComponent<PlayerHealth>().TakeDamage(10);
+            Player.GetComponent<PlayerHealth>().TakeDamage(10);
         }
+        
     }
 }
